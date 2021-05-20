@@ -6,24 +6,29 @@ import smbus
 import os
 import subprocess
 
+import pygame
+pygame.init()
+pygame.mixer.init()
 
-# def speak():
 
-#     weather_info = get_weather(101010700)
-#     print(weather_info)
+#---
+# init
+#---
+_dir=os.path.dirname(os.path.abspath(__file__))
 
-#     # tts(weather_info)
-
-#     synthsis = SpeechSynthsis(18000)
-
-#     ##### reset test
-#     synthsis.append(str(weather_info))
-
-#     sleep(20)
-#     synthsis.close()
+playlist_path=os.path.join(_dir,'music')
 
 
 
+
+#---
+# 
+#---
+
+
+#---
+# 
+#---
 
 #i2c地址
 PAJ7620U2_I2C_ADDRESS   = 0x73
@@ -243,12 +248,22 @@ class PAJ7620U2(object):
             pidc = subprocess.Popen(["python3", "weather_tts.py"])
 
         elif Gesture_Data == PAJ_DOWN:
-            print("Down\r\n")
+            
             # !!ps -ef | grep weather_tts | grep -v grep | awk '{print $2}' | xargs kill -9  
-            os.system("ps -ef | grep weather_tts | grep -v grep | awk '{print $2}' | xargs kill -9")  
+            
+            try:
+                os.system("ps -ef | grep weather_tts | grep -v grep | awk '{print $2}' | xargs kill -9")
+                # os.system("ps -ef | grep pulseaudio | grep -v grep | awk '{print $2}' | xargs kill -9")  
+                pygame.mixer.music.stop()
 
-    #     elif Gesture_Data == PAJ_LEFT:
-    #         print("Left\r\n")   
+            finally:
+                print("Down\r\n")
+
+        elif Gesture_Data == PAJ_LEFT:
+            print("Left\r\n")
+            pygame.mixer.music.load(playlist_path+'/浮白.mp3')
+            # pygame.mixer.music.load(file)
+            pygame.mixer.music.play()
     #     elif Gesture_Data == PAJ_RIGHT:
     #         print("Right\r\n")  
     #     elif Gesture_Data == PAJ_FORWARD:
@@ -267,7 +282,6 @@ class PAJ7620U2(object):
 
 
 if __name__ == '__main__':
-
 
     
     import time
@@ -290,14 +304,8 @@ if __name__ == '__main__':
 #---
 # import pygame
 
-# # dir_path = os.path.dirname(os.path.realpath(__file__))
-# # path = os.path.join(dir_path, "mp3s", 'info.mp3')
-
-# pygame.mixer.init()
-# # mysound = pygame.mixer.Sound(file="zuo2.wav")
-# mysound = pygame.mixer.music.load("关山酒.mp3")
-# pygame.mixer.music.play(mysound)
-
+# dir_path = os.path.dirname(os.path.realpath(__file__))
+# path = os.path.join(dir_path, "mp3s", 'info.mp3')
 
 # pygame.mixer.init() 
 # mysound = pygame.mixer.Sound(file="zuo2.wav") 
@@ -308,7 +316,14 @@ if __name__ == '__main__':
 
 
 
-
+# import pygame
+# file = '关山酒.mp3'
+pygame.init()
+pygame.mixer.init()
+pygame.mixer.music.load(playlist_path+'/浮白.mp3')
+# pygame.mixer.music.load(file)
+pygame.mixer.music.play()
+# pygame.event.wait()
 
 
 
