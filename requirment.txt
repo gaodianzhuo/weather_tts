@@ -1,0 +1,4 @@
+ChineseTone
+pygame
+numpy
+wave
