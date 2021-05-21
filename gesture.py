@@ -5,18 +5,16 @@ import smbus
 # from weather_tts import *
 import os
 import subprocess
-
 import pygame
 pygame.init()
 pygame.mixer.init()
 
-
 #---
 # init
 #---
-_dir=os.path.dirname(os.path.abspath(__file__))
+# _dir=os.path.dirname(os.path.abspath(__file__))
 
-playlist_path=os.path.join(_dir,'music')
+# playlist_path=os.path.join(_dir,'music')
 
 
 
@@ -24,6 +22,8 @@ playlist_path=os.path.join(_dir,'music')
 #---
 # 
 #---
+    
+
 
 
 #---
@@ -194,6 +194,19 @@ Init_Gesture_Array = (
     (0x41,0xFF),
     (0x42,0x01),
 )
+
+def play():
+    
+#    import pygame
+#    pygame.init()
+#    pygame.mixer.init()
+    pygame.mixer.music.load('/home/pi/weather_tts/music/浮白.mp3')
+    # pygame.mixer.music.load(file)
+    pygame.mixer.music.play()
+
+    return 0
+
+
 class PAJ7620U2(object):
     def __init__(self,address=PAJ7620U2_I2C_ADDRESS):
         self._address = address
@@ -244,7 +257,6 @@ class PAJ7620U2(object):
         if Gesture_Data == PAJ_FORWARD:
             print("FORWARD\r\n")
             #speak()
-            os.system('python3 weather_tts.py')
             pidc = subprocess.Popen(["python3", "weather_tts.py"])
 
         elif Gesture_Data == PAJ_DOWN:
@@ -261,9 +273,10 @@ class PAJ7620U2(object):
 
         elif Gesture_Data == PAJ_LEFT:
             print("Left\r\n")
-            pygame.mixer.music.load(playlist_path+'/浮白.mp3')
+            play()
+            # pygame.mixer.music.load(playlist_path+'/浮白.mp3')
             # pygame.mixer.music.load(file)
-            pygame.mixer.music.play()
+            # pygame.mixer.music.play()
     #     elif Gesture_Data == PAJ_RIGHT:
     #         print("Right\r\n")  
     #     elif Gesture_Data == PAJ_FORWARD:
@@ -283,7 +296,10 @@ class PAJ7620U2(object):
 
 if __name__ == '__main__':
 
-    
+
+
+
+
     import time
 
     print("\nGesture Sensor Test Program ...\n")

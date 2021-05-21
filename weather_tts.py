@@ -173,8 +173,10 @@ def tts(message):
 
     return
 
-def speak():
-    
+
+if __name__ == '__main__':
+
+
     weather_info = get_weather(101010700)
     print(weather_info)
 
@@ -188,27 +190,6 @@ def speak():
     sleep(20)
     synthsis.close()
     print ('finished')
-
-
-
-if __name__ == '__main__':
-
-
-    speak()
-
-    # weather_info = get_weather(101010700)
-    # print(weather_info)
-
-    # # tts(weather_info)
-
-    # synthsis = SpeechSynthsis(18000)
-
-    # ##### reset test
-    # synthsis.append(str(weather_info))
-
-    # # sleep(20)
-    # synthsis.close()
-    # print ('finished')
 
 
 
