@@ -195,23 +195,87 @@ Init_Gesture_Array = (
     (0x42,0x01),
 )
 
-def play():
+
+#---
+# init
+#---
+from glob import glob
+
+music_index = 0
+
+music_status = 'stop'
+
+
+# music_dir='/media/arthur/DATA/gaodianzhuo/pi/weather_tts/music'
+# mp3_files = glob('/media/arthur/DATA/gaodianzhuo/pi/weather_tts/music/*.mp3')
+
+_dir=os.path.dirname(os.path.abspath(__file__))
+
+playlist_path=os.path.join(_dir,'music')+'/*.mp3'
+
+mp3_files = glob(playlist_path)
+
+
+
+
+#---
+# music control
+#---
+def play(music_file):
     
-#    import pygame
-#    pygame.init()
-#    pygame.mixer.init()
-    pygame.mixer.music.load('/home/pi/weather_tts/music/浮白.mp3')
-    # pygame.mixer.music.load(file)
+    try:
+        pygame.mixer.music.stop()
+    except:
+        pass
+    
+    # for music_file in music_list:
+
+    pygame.mixer.music.load(music_file)
+        # pygame.mixer.music.load(file)
     pygame.mixer.music.play()
 
     return 0
 
 
+
+def play(music_list):
+    '''error 无法循环播放'''
+    
+    try:
+        pygame.mixer.music.stop()
+    except:
+        pass
+    
+    for music_file in music_list:
+        print(music_file)
+
+        pygame.mixer.music.load(music_file)
+        # pygame.mixer.music.load(file)
+        pygame.mixer.music.play()
+
+    return 0
+
+
+# play(mp3_files)
+# play(mp3_files[0])
+
+
+
+def stop():
+
+    pygame.mixer.music.stop()
+
+    return 0
+
+#---
+# 
+#---
+
 class PAJ7620U2(object):
     def __init__(self,address=PAJ7620U2_I2C_ADDRESS):
         self._address = address
         self._bus = smbus.SMBus(1)
-        time.sleep(0.5)
+        time.sleep(1)
         if self._read_byte(0x00) == 0x20:
             print("\nGesture Sensor OK\n")
             for num in range(len(Init_Register_Array)):
@@ -253,6 +317,10 @@ class PAJ7620U2(object):
     #     return Gesture_Data
 
     def check_gesture(self):
+
+        global music_status
+
+        
         Gesture_Data=self._read_u16(PAJ_INT_FLAG1)
         if Gesture_Data == PAJ_FORWARD:
             print("FORWARD\r\n")
@@ -260,6 +328,9 @@ class PAJ7620U2(object):
             pidc = subprocess.Popen(["python3", "weather_tts.py"])
 
         elif Gesture_Data == PAJ_DOWN:
+
+            
+            music_status = 'stop'
             
             # !!ps -ef | grep weather_tts | grep -v grep | awk '{print $2}' | xargs kill -9  
             
@@ -273,7 +344,22 @@ class PAJ7620U2(object):
 
         elif Gesture_Data == PAJ_LEFT:
             print("Left\r\n")
-            play()
+
+            music_status = 'start'
+            play(mp3_files[0])
+
+            # global music_index
+
+            # if  music_index >= len(mp3_files):
+            #     music_index = 0
+
+            # play(mp3_files[music_index])
+
+            # music_index+=1
+
+
+
+            # play()
             # pygame.mixer.music.load(playlist_path+'/浮白.mp3')
             # pygame.mixer.music.load(file)
             # pygame.mixer.music.play()
@@ -297,9 +383,6 @@ class PAJ7620U2(object):
 if __name__ == '__main__':
 
 
-
-
-
     import time
 
     print("\nGesture Sensor Test Program ...\n")
@@ -308,7 +391,21 @@ if __name__ == '__main__':
 
     while True:
         time.sleep(0.05)
+
         paj7620u2.check_gesture()
+
+        if music_status == 'start' && pygame.mixer.music.get_busy()==0:
+            # play(mp3_files[music_index])
+
+            global music_index
+
+            if  music_index >= len(mp3_files):
+                music_index = 0
+
+            play(mp3_files[music_index])
+
+            music_index+=1
+
         
 
 
@@ -328,17 +425,13 @@ if __name__ == '__main__':
 # pygame.mixer.Sound.play(mysound)
 
 
-
-
-
-
 # import pygame
 # file = '关山酒.mp3'
-pygame.init()
-pygame.mixer.init()
-pygame.mixer.music.load(playlist_path+'/浮白.mp3')
+# pygame.init()
+# pygame.mixer.init()
+# pygame.mixer.music.load(playlist_path+'/浮白.mp3')
 # pygame.mixer.music.load(file)
-pygame.mixer.music.play()
+# pygame.mixer.music.play()
 # pygame.event.wait()
 
 
