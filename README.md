@@ -14,11 +14,15 @@ weather_tts.py 天气 语音
 
 weather_clock.py 按时执行播报
 
+weather_tts.service 增加系统服务
+sudo cp weather_tts.service  /lib/systemd/system
 
 
-# Offline_speech_synthesis
 
-## version1.1
+
+## 依赖的项目 Offline_speech_synthesis
+
+### version1.1
 
 > 更新线程方式, 只用一个线程合成音频, 节省资源, 提高灵活性.  
 > 添加reset, 快速重置, 重新播放音频.  
@@ -28,32 +32,32 @@ weather_clock.py 按时执行播报
 > 暂时不支持小数, 因为部分场景考虑小数比较复杂.  
 > 适配python2.7.  
 
-## 离线语音合成的简单方法
+### 离线语音合成的简单方法
 
 > 目前支持中文和阿拉伯数字  
 
-## 开发环境
+### 开发环境
 
 > ubantu18 + python3.6.7  
 
-## 依赖安装
+### 依赖安装
 
 ```shell
-## python3
+### python3
 pip3 install -r requirment.txt   
 
 ## python2
 pip install -r requirment.txt  
 
-## 根据实际情况使用
+### 根据实际情况使用
 ```
 
-## 使用
+### 使用
 
 ```shell
 python3 demo.py   
 ```
 
-## 说明
+### 说明
 
 > wav为处理过后的音频,更换音频可以提升合成效果。 
