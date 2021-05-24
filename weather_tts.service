@@ -1,0 +1,15 @@
+[Unit]
+Description=weather_tts
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+Group=pi
+WorkingDirectory=/home/pi/weather_tts
+ExecStart=python3 /home/pi/weather_tts/gesture.py
+Restart=always
+RestartSec=3//每三秒运行一次（根据各自需求，可以不设置，删掉）
+
+[Install]
+WantedBy=multi-user.target

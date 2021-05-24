@@ -238,22 +238,22 @@ def play(music_file):
 
 
 
-def play(music_list):
-    '''error 无法循环播放'''
+# def play(music_list):
+#     '''error 无法循环播放'''
     
-    try:
-        pygame.mixer.music.stop()
-    except:
-        pass
+#     try:
+#         pygame.mixer.music.stop()
+#     except:
+#         pass
     
-    for music_file in music_list:
-        print(music_file)
+#     for music_file in music_list:
+#         print(music_file)
 
-        pygame.mixer.music.load(music_file)
-        # pygame.mixer.music.load(file)
-        pygame.mixer.music.play()
+#         pygame.mixer.music.load(music_file)
+#         # pygame.mixer.music.load(file)
+#         pygame.mixer.music.play()
 
-    return 0
+#     return 0
 
 
 # play(mp3_files)
@@ -275,7 +275,7 @@ class PAJ7620U2(object):
     def __init__(self,address=PAJ7620U2_I2C_ADDRESS):
         self._address = address
         self._bus = smbus.SMBus(1)
-        time.sleep(1)
+        time.sleep(0.5)
         if self._read_byte(0x00) == 0x20:
             print("\nGesture Sensor OK\n")
             for num in range(len(Init_Register_Array)):
@@ -348,14 +348,14 @@ class PAJ7620U2(object):
             music_status = 'start'
             play(mp3_files[0])
 
-            # global music_index
+            global music_index
 
             # if  music_index >= len(mp3_files):
             #     music_index = 0
 
             # play(mp3_files[music_index])
 
-            # music_index+=1
+            music_index+=1
 
 
 
@@ -394,10 +394,10 @@ if __name__ == '__main__':
 
         paj7620u2.check_gesture()
 
-        if music_status == 'start' && pygame.mixer.music.get_busy()==0:
+        if music_status == 'start' and pygame.mixer.music.get_busy()==0:
             # play(mp3_files[music_index])
 
-            global music_index
+            # global music_index
 
             if  music_index >= len(mp3_files):
                 music_index = 0
