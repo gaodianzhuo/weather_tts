@@ -27,3 +27,4 @@ sudo cp weather_tts.service  /lib/systemd/system
 hp小音箱
 PAJ7620U2 手势识别模块
 
+* <img src="./hardware.jpg" style="zoom:30%;"/>
